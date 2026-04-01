@@ -6,7 +6,7 @@
 
 // Optional camera support for ESP32-S3-CAM.
 // Set to 1 after you verify camera pin mapping and library availability.
-#define ENABLE_CAMERA 0
+#define ENABLE_CAMERA 1
 
 #if ENABLE_CAMERA
 #include "esp_camera.h"
@@ -39,29 +39,32 @@ struct SensorPacket {
   uint32_t seq;
   uint32_t boot;
   uint64_t uptimeMs;
+  bool cameraOk;
 };
 
-#line 42 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 43 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 float calcDewPoint(float tempC, float rh);
-#line 47 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 48 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 bool readDHTWithRetry(float &tempC, float &rh);
-#line 61 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 62 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 const char * wifiStatusText(wl_status_t s);
-#line 74 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 75 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 void scanNearbyNetworks();
-#line 91 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 92 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 bool connectWiFi();
-#line 121 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 122 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 String makeJsonBody(const SensorPacket &pkt);
-#line 141 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 143 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 bool postJsonWithRetry(const String &url, const String &payload, int &httpCode, String &respBody);
-#line 216 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 174 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+bool initCamera();
+#line 218 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 void enterDeepSleep();
-#line 224 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 226 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 void setup();
-#line 284 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 288 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 void loop();
-#line 42 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+#line 43 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
 float calcDewPoint(float tempC, float rh) {
   // Project approximation: Tdp ~= T - (100 - RH) / 5
   return tempC - ((100.0f - rh) / 5.0f);
@@ -142,11 +145,11 @@ bool connectWiFi() {
 }
 
 String makeJsonBody(const SensorPacket &pkt) {
-  char buf[512];
+  char buf[768];
   snprintf(
       buf,
       sizeof(buf),
-      "{\"device_id\":\"%s\",\"fw_version\":\"%s\",\"timestamp_epoch\":0,\"seq\":%lu,\"boot_count\":%lu,\"uptime_ms\":%llu,\"temp_c\":%.2f,\"rh_pct\":%.2f,\"dew_point_c\":%.2f,\"wifi_rssi\":%d,\"sensor_ok\":%s}",
+      "{\"device_id\":\"%s\",\"fw_version\":\"%s\",\"timestamp_epoch\":0,\"seq\":%lu,\"boot_count\":%lu,\"uptime_ms\":%llu,\"temp_c\":%.2f,\"rh_pct\":%.2f,\"dew_point_c\":%.2f,\"wifi_rssi\":%d,\"sensor_ok\":%s,\"camera_ok\":%s}",
       DEVICE_ID,
       FW_VERSION,
       (unsigned long)pkt.seq,
@@ -156,7 +159,8 @@ String makeJsonBody(const SensorPacket &pkt) {
       pkt.rh,
       pkt.dewPoint,
       pkt.wifiRssi,
-      pkt.ok ? "true" : "false");
+      pkt.ok ? "true" : "false",
+      pkt.cameraOk ? "true" : "false");
 
   return String(buf);
 }
@@ -254,8 +258,9 @@ void setup() {
 
   dht.begin();
 
+  bool cameraOk = false;
 #if ENABLE_CAMERA
-  initCamera();
+  cameraOk = initCamera();
 #endif
 
   float tempC = NAN;
@@ -271,6 +276,7 @@ void setup() {
   pkt.seq = sequenceId;
   pkt.boot = bootCount;
   pkt.uptimeMs = millis();
+  pkt.cameraOk = cameraOk;
 
   if (sensorOk) {
     Serial.printf("DHT11 OK: T=%.2fC RH=%.2f%% DP=%.2fC\n", pkt.tempC, pkt.rh, pkt.dewPoint);

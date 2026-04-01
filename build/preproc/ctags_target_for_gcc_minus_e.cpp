@@ -8,7 +8,7 @@
 
 
 
-
+# 11 "d:\\DevCode\\lot\\esp32_firmware\\main.ino" 2
 
 
 # 14 "d:\\DevCode\\lot\\esp32_firmware\\main.ino" 2
@@ -26,6 +26,7 @@ struct SensorPacket {
   uint32_t seq;
   uint32_t boot;
   uint64_t uptimeMs;
+  bool cameraOk;
 };
 
 float calcDewPoint(float tempC, float rh) {
@@ -108,11 +109,11 @@ bool connectWiFi() {
 }
 
 String makeJsonBody(const SensorPacket &pkt) {
-  char buf[512];
+  char buf[768];
   snprintf(
       buf,
       sizeof(buf),
-      "{\"device_id\":\"%s\",\"fw_version\":\"%s\",\"timestamp_epoch\":0,\"seq\":%lu,\"boot_count\":%lu,\"uptime_ms\":%llu,\"temp_c\":%.2f,\"rh_pct\":%.2f,\"dew_point_c\":%.2f,\"wifi_rssi\":%d,\"sensor_ok\":%s}",
+      "{\"device_id\":\"%s\",\"fw_version\":\"%s\",\"timestamp_epoch\":0,\"seq\":%lu,\"boot_count\":%lu,\"uptime_ms\":%llu,\"temp_c\":%.2f,\"rh_pct\":%.2f,\"dew_point_c\":%.2f,\"wifi_rssi\":%d,\"sensor_ok\":%s,\"camera_ok\":%s}",
       "esp32s3-cam-01",
       "0.1.0",
       (unsigned long)pkt.seq,
@@ -122,7 +123,8 @@ String makeJsonBody(const SensorPacket &pkt) {
       pkt.rh,
       pkt.dewPoint,
       pkt.wifiRssi,
-      pkt.ok ? "true" : "false");
+      pkt.ok ? "true" : "false",
+      pkt.cameraOk ? "true" : "false");
 
   return String(buf);
 }
@@ -156,7 +158,52 @@ bool postJsonWithRetry(const String &url, const String &payload, int &httpCode, 
   }
   return false;
 }
-# 216 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+
+
+bool initCamera() {
+  camera_config_t config;
+  config.ledc_channel = LEDC_CHANNEL_0;
+  config.ledc_timer = LEDC_TIMER_0;
+  config.pin_d0 = 11;
+  config.pin_d1 = 9;
+  config.pin_d2 = 8;
+  config.pin_d3 = 10;
+  config.pin_d4 = 12;
+  config.pin_d5 = 18;
+  config.pin_d6 = 17;
+  config.pin_d7 = 16;
+  config.pin_xclk = 15;
+  config.pin_pclk = 13;
+  config.pin_vsync = 6;
+  config.pin_href = 7;
+  config.pin_sscb_sda = 4;
+  config.pin_sscb_scl = 5;
+  config.pin_pwdn = -1;
+  config.pin_reset = -1;
+  config.xclk_freq_hz = 20000000;
+  config.pixel_format = PIXFORMAT_JPEG;
+
+  if (psramFound()) {
+    config.frame_size = FRAMESIZE_VGA;
+    config.jpeg_quality = 12;
+    config.fb_count = 2;
+  } else {
+    config.frame_size = FRAMESIZE_CIF;
+    config.jpeg_quality = 15;
+    config.fb_count = 1;
+  }
+
+  esp_err_t err = esp_camera_init(&config);
+  if (err != 0 /*!< esp_err_t value indicating success (no error) */) {
+    Serial0.printf("Camera init failed: 0x%x\n", err);
+    return false;
+  }
+
+  Serial0.println("Camera init OK.");
+  return true;
+}
+
+
 void enterDeepSleep() {
   const uint64_t sleepUs = (uint64_t)1 * 60ULL * 1000000ULL;
   Serial0.printf("Entering deep sleep for %d min...\n", 1);
@@ -175,19 +222,20 @@ void setup() {
 
   dht.begin();
 
+  bool cameraOk = false;
 
-
+  cameraOk = initCamera();
 
 
   float tempC = 
-# 238 "d:\\DevCode\\lot\\esp32_firmware\\main.ino" 3 4
+# 241 "d:\\DevCode\\lot\\esp32_firmware\\main.ino" 3 4
                (__builtin_nanf(""))
-# 238 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+# 241 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
                   ;
   float rh = 
-# 239 "d:\\DevCode\\lot\\esp32_firmware\\main.ino" 3 4
+# 242 "d:\\DevCode\\lot\\esp32_firmware\\main.ino" 3 4
             (__builtin_nanf(""))
-# 239 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+# 242 "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
                ;
   bool sensorOk = readDHTWithRetry(tempC, rh);
 
@@ -200,6 +248,7 @@ void setup() {
   pkt.seq = sequenceId;
   pkt.boot = bootCount;
   pkt.uptimeMs = millis();
+  pkt.cameraOk = cameraOk;
 
   if (sensorOk) {
     Serial0.printf("DHT11 OK: T=%.2fC RH=%.2f%% DP=%.2fC\n", pkt.tempC, pkt.rh, pkt.dewPoint);

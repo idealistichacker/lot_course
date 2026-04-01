@@ -288,4 +288,10 @@ d:\DevCode\lot\build\sketch\main.ino.cpp.o: \
  D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/mbedtls/mbedtls/include/mbedtls/entropy.h \
  D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/mbedtls/mbedtls/include/mbedtls/error.h \
  D:\DevCode\esp32s3\libraries\DHT_sensor_library/DHT.h \
+ D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/espressif__esp32-camera/driver/include/esp_camera.h \
+ D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/driver/ledc/include/driver/ledc.h \
+ D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/hal/include/hal/ledc_types.h \
+ D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/espressif__esp32-camera/driver/include/sensor.h \
+ D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/espressif__esp32-camera/conversions/include/img_converters.h \
+ D:\DevCode\esp32s3\hardware\esp32\esp32\tools\esp32-arduino-libs\esp32s3/include/espressif__esp32-camera/conversions/include/esp_jpg_decode.h \
  d:\DevCode\lot\build\sketch\secrets.h

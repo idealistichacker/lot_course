@@ -17,6 +17,7 @@ def validate_payload(data: Dict[str, Any]) -> Dict[str, Any]:
         "dew_point_c",
         "wifi_rssi",
         "sensor_ok",
+        "camera_ok",
     ]
 
     missing = [k for k in required if k not in data]
@@ -43,7 +44,7 @@ async def upload(request: Request):
 
     print("\n=== Incoming packet ===")
     print(f"time={now}")
-    print(f"device={data.get('device_id')} seq={data.get('seq')} sensor_ok={data.get('sensor_ok')}")
+    print(f"device={data.get('device_id')} seq={data.get('seq')} sensor_ok={data.get('sensor_ok')} camera_ok={data.get('camera_ok')}")
     print(f"temp={data.get('temp_c')} rh={data.get('rh_pct')} dew={data.get('dew_point_c')} rssi={data.get('wifi_rssi')}")
 
     if not check["ok"]:

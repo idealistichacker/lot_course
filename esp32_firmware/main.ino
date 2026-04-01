@@ -4,7 +4,7 @@
 
 // Optional camera support for ESP32-S3-CAM.
 // Set to 1 after you verify camera pin mapping and library availability.
-#define ENABLE_CAMERA 0
+#define ENABLE_CAMERA 1
 
 #if ENABLE_CAMERA
 #include "esp_camera.h"
@@ -37,6 +37,7 @@ struct SensorPacket {
   uint32_t seq;
   uint32_t boot;
   uint64_t uptimeMs;
+  bool cameraOk;
 };
 
 float calcDewPoint(float tempC, float rh) {
@@ -119,11 +120,11 @@ bool connectWiFi() {
 }
 
 String makeJsonBody(const SensorPacket &pkt) {
-  char buf[512];
+  char buf[768];
   snprintf(
       buf,
       sizeof(buf),
-      "{\"device_id\":\"%s\",\"fw_version\":\"%s\",\"timestamp_epoch\":0,\"seq\":%lu,\"boot_count\":%lu,\"uptime_ms\":%llu,\"temp_c\":%.2f,\"rh_pct\":%.2f,\"dew_point_c\":%.2f,\"wifi_rssi\":%d,\"sensor_ok\":%s}",
+      "{\"device_id\":\"%s\",\"fw_version\":\"%s\",\"timestamp_epoch\":0,\"seq\":%lu,\"boot_count\":%lu,\"uptime_ms\":%llu,\"temp_c\":%.2f,\"rh_pct\":%.2f,\"dew_point_c\":%.2f,\"wifi_rssi\":%d,\"sensor_ok\":%s,\"camera_ok\":%s}",
       DEVICE_ID,
       FW_VERSION,
       (unsigned long)pkt.seq,
@@ -133,7 +134,8 @@ String makeJsonBody(const SensorPacket &pkt) {
       pkt.rh,
       pkt.dewPoint,
       pkt.wifiRssi,
-      pkt.ok ? "true" : "false");
+      pkt.ok ? "true" : "false",
+      pkt.cameraOk ? "true" : "false");
 
   return String(buf);
 }
@@ -231,8 +233,9 @@ void setup() {
 
   dht.begin();
 
+  bool cameraOk = false;
 #if ENABLE_CAMERA
-  initCamera();
+  cameraOk = initCamera();
 #endif
 
   float tempC = NAN;
@@ -248,6 +251,7 @@ void setup() {
   pkt.seq = sequenceId;
   pkt.boot = bootCount;
   pkt.uptimeMs = millis();
+  pkt.cameraOk = cameraOk;
 
   if (sensorOk) {
     Serial.printf("DHT11 OK: T=%.2fC RH=%.2f%% DP=%.2fC\n", pkt.tempC, pkt.rh, pkt.dewPoint);
