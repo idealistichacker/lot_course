@@ -1,0 +1,12 @@
+{
+  "additionalFiles": "..,..",
+  "builtInLibrariesFolders": "C:\\Program Files (x86)\\Arduino\\libraries",
+  "builtInToolsFolders": "C:\\Program Files (x86)\\Arduino\\tools-builder,C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr",
+  "compiler.optimization_flags": "-Os",
+  "customBuildProperties": "build.path=d:\\DevCode\\lot\\build,build.warn_data_percentage=75",
+  "fqbn": "esp32:esp32:esp32s3:JTAGAdapter=default,PSRAM=opi,FlashMode=qio,FlashSize=16M,LoopCore=1,EventsCore=1,USBMode=hwcdc,CDCOnBoot=default,MSCOnBoot=default,DFUOnBoot=default,UploadMode=default,PartitionScheme=fatflash,CPUFreq=240,UploadSpeed=921600,DebugLevel=none,EraseFlash=none,ZigbeeMode=default",
+  "hardwareFolders": "C:\\Program Files (x86)\\Arduino\\hardware,D:\\DevCode\\esp32s3\\hardware",
+  "otherLibrariesFolders": "D:\\DevCode\\esp32s3\\libraries",
+  "runtime.ide.version": "10813",
+  "sketchLocation": "d:\\DevCode\\lot\\esp32_firmware\\main.ino"
+}

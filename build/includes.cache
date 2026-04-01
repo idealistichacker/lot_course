@@ -1,0 +1,147 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\cores\\esp32"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\variants\\esp32s3"
+  },
+  {
+    "Sourcefile": "d:\\DevCode\\lot\\build\\sketch\\main.ino.cpp",
+    "Include": "WiFi.h",
+    "Includepath": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src"
+  },
+  {
+    "Sourcefile": "d:\\DevCode\\lot\\build\\sketch\\main.ino.cpp",
+    "Include": "Network.h",
+    "Includepath": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src"
+  },
+  {
+    "Sourcefile": "d:\\DevCode\\lot\\build\\sketch\\main.ino.cpp",
+    "Include": "HTTPClient.h",
+    "Includepath": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\HTTPClient\\src"
+  },
+  {
+    "Sourcefile": "d:\\DevCode\\lot\\build\\sketch\\main.ino.cpp",
+    "Include": "NetworkClientSecure.h",
+    "Includepath": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\NetworkClientSecure\\src"
+  },
+  {
+    "Sourcefile": "d:\\DevCode\\lot\\build\\sketch\\main.ino.cpp",
+    "Include": "DHT.h",
+    "Includepath": "D:\\DevCode\\esp32s3\\libraries\\DHT_sensor_library"
+  },
+  {
+    "Sourcefile": "d:\\DevCode\\lot\\build\\sketch\\main.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\AP.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\STA.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\WiFi.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\WiFiAP.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\WiFiGeneric.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\WiFiMulti.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\WiFiSTA.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\WiFi\\src\\WiFiScan.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src\\NetworkClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src\\NetworkEvents.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src\\NetworkInterface.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src\\NetworkManager.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src\\NetworkServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\Network\\src\\NetworkUdp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\HTTPClient\\src\\HTTPClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\NetworkClientSecure\\src\\NetworkClientSecure.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\hardware\\esp32\\esp32\\libraries\\NetworkClientSecure\\src\\ssl_client.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\libraries\\DHT_sensor_library\\DHT.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\libraries\\DHT_sensor_library\\DHT_U.cpp",
+    "Include": "Adafruit_Sensor.h",
+    "Includepath": "D:\\DevCode\\esp32s3\\libraries\\Adafruit_Unified_Sensor"
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\libraries\\DHT_sensor_library\\DHT_U.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "D:\\DevCode\\esp32s3\\libraries\\Adafruit_Unified_Sensor\\Adafruit_Sensor.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
